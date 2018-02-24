@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import {storesService} from '../services/stores'
+  import {getApiToken} from '../api/markets'
   export default {
     name: 'Welcome',
     data () {
@@ -23,15 +23,7 @@
       }
     },
     mounted () {
-      this.$http.get('user/session').then(response => {
-        if(response.data.status === 'OK'){
-          storesService.status.token = response.data.token;
-        }else {
-         console.log("ups, something wrong happend");
-        }
-      }, err => {
-        console.log(err);
-      });
+      getApiToken();
     },
     methods: {
       goToShops () {

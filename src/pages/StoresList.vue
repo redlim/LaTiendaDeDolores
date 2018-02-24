@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import {storesService}from '@/services/stores'
+  import {getAllMarkets} from '../api/markets'
   export default {
     name: 'StoreList',
     data () {
@@ -18,16 +18,12 @@
       }
     },
     mounted (){
-      const params = {postalcode:this.$route.params.postalcode,token:storesService.status.token};
-      this.$http.get('user/postalcode',{params:params}).then(response => {
-        if(response.data.status === 'OK'){
-          this.markets = response.data.markets;
-        }else {
-          console.log("ups, something wrong happend");
-        }
-      }, err => {
+      const params = {postalcode:this.$route.params.postalcode};
+      getAllMarkets(params).then(res=>{
+        this.markets = res.data.markets;
+      }).catch((err)=>{
         console.log(err);
-      });
+      })
     },
     methods: {
       goToShop (id) {

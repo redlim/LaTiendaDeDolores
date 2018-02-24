@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import {storesService} from '../services/stores'
+  import {getCategories} from '../api/markets'
   export default {
     name: 'StoreDetails',
     data () {
@@ -15,16 +15,10 @@
       }
     },
     mounted () {
-      const params = {company_id:this.$route.params.marketid,token:storesService.status.token};
-      this.$http.get('company/categories',{params:params}).then(response => {
-        if(response.data.status === 'OK'){
-          this.categories = response.data.categories;
-        }else {
-          console.log("ups, something wrong happend");
-        }
-      }, err => {
-        console.log(err);
-      });
+      const params = {company_id:this.$route.params.marketid};
+      getCategories(params).then((res)=>{
+        this.categories = res.data.categories;
+      })
     },
     methods: {
     }
