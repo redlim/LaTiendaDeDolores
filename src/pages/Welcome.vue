@@ -3,20 +3,43 @@
     <div class="overlay">
       <div class="hero-text">
         <h1>Bienvenidos a <strong>El mercado de Dolores</strong></h1>
-        <label for="inputPostalCode">Código Postal:</label>
-        <input id="inputPostalCode" type="text" v-model="postalCode">
-        <button v-clicK="goToShops">Buscar Tiendas</button>
+        <form  v-on:submit.prevent="goToShops">
+          <label for="inputPostalCode">Código Postal:
+          <input id="inputPostalCode" type="text" v-model="postalCode"></label>
+          <button type="submit">Buscar Tiendas</button>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {storesService} from '../services/stores'
   export default {
     name: 'Welcome',
     data () {
       return {
         postalCode:''
+      }
+    },
+    mounted () {
+      this.$http.get('user/session').then(response => {
+        if(response.data.status === 'OK'){
+          storesService.status.token = response.data.token;
+        }else {
+         console.log("ups, something wrong happend");
+        }
+      }, err => {
+        console.log(err);
+      });
+    },
+    methods: {
+      goToShops () {
+        if (this.postalCode !== ''){
+          this.$router.push({ name: 'StoreList', params: { postalcode: this.postalCode }});
+        }else {
+
+        }
       }
     }
   }
