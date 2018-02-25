@@ -1,21 +1,21 @@
 <template>
-  <div class="nav-sidebar">
-    <a v-for="item of items" v-on:click="clickItem(item)">
-      <nav-item :name="item.name" :icon="item.icon" status="open"></nav-item>
-      <span v-if="item.categories">
-         <a v-for="subitem of item.categories" v-on:click="clickItem(subitem)">
-          <nav-item :name="subitem.name" :icon="subitem.icon" status="open"></nav-item>
-         </a>
-      </span>
-    </a>
-  </div>
+  <nav class="nav-sidebar">
+    <span v-for="item of items">
+      <nav-item v-on:click.native="clickItem(item)" :name="item.name" :icon="item.icon" class="mainmenu"></nav-item>
+      <div :class="{'open' : item.id === itemSelected , 'close' : item.id !== itemSelected}">
+        <span  v-if="item[itemKey]" v-for="subitem of item[itemKey]">
+          <nav-item v-on:click.native="clickItem(subitem)" :name="subitem.name" :icon="item.icon" ></nav-item>
+        </span>
+      </div>
+    </span>
+  </nav>
 </template>
 
 <script>
   import NavItem from './NavItem'
   export default {
     name: 'NavSidebar',
-    props: ['items','itemSelected',"update"],
+    props: ['items','itemKey','itemSelected',"update"],
     components :{NavItem},
     data () {
       return {
@@ -24,11 +24,11 @@
     },
     methods : {
       clickItem (item)  {
+        console.log("hey");
         this.$emit('update',item);
       }
     },
     computed : {
-
     }
   }
 </script>
@@ -38,5 +38,27 @@
   .nav-sidebar-container {
     display: flex;
     flex-direction: column;
+    width: 300px;
+  }
+  .close {
+    visibility: hidden; /* hides sub-menu */
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-2em);
+    z-index: -1;
+    transition: all 0.3s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;
+  }
+  .open {
+    visibility: visible; /* shows sub-menu */
+    opacity: 1;
+    z-index: 1;
+    transform: translateY(0%);
+    transition-delay: 0s, 0s, 0.3s;
+  }
+  .sub-menu {
+
   }
 </style>

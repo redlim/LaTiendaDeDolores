@@ -1,7 +1,7 @@
 <template>
   <div class="store-details">
     <h1>Store Details</h1>
-    <nav-sidebar :items="categories"  :item-selected="categorySelected" @update="getItems"></nav-sidebar>
+    <nav-sidebar :items="categories" :item-key="'categories'" :item-selected="categorySelected.id" @update="getItems"></nav-sidebar>
     {{productsName}}
     <p v-for="product of products ">{{product.name}}</p>
   </div>
@@ -31,12 +31,13 @@
     },
     methods: {
       getItems(item){
+        console.log("hey");
         this.categorySelected = item;
         const params = {company_id:this.$route.params.marketid,category_id:item.id};
         getItems(params).then((res)=>{
           console.log("hey ho",res.data);
           this.productsName = res.data.categories[0].name;
-          this.products =res.data.categories[0].products;
+          this.products = res.data.categories[0].products;
         })
       }
     },
