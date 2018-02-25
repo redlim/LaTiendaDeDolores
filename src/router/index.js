@@ -18,7 +18,7 @@ export default new Router({
       component: StoresList
     },
     {
-      path: '/:postalcode/markets/:marketid',
+      path: '/:postalcode/markets/:marketid/:marketname',
       name: 'StoreDetails',
       component: StoreDetails
     }

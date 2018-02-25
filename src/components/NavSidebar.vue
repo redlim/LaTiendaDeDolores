@@ -1,5 +1,15 @@
 <template>
-  <nav class="nav-sidebar">
+  <nav class="nav-sidebar-container">
+    <header>
+      <div class="icon-container">
+        <img :src="headerImage" alt="name" class="icon">
+      </div>
+      <div class="text-container">
+        <p>{{headerTitle}}</p>
+        <p>{{headerSubtitle}}</p>
+      </div>
+      <a href="">CAMBIAR</a>
+    </header>
     <span v-for="item of items">
       <nav-item v-on:click.native="clickItem(item)" :name="item.name" :icon="item.icon" class="mainmenu"></nav-item>
       <div :class="{'open' : item.id === itemSelected , 'close' : item.id !== itemSelected}">
@@ -15,7 +25,7 @@
   import NavItem from './NavItem'
   export default {
     name: 'NavSidebar',
-    props: ['items','itemKey','itemSelected',"update"],
+    props: ['items','itemKey','itemSelected',"update",'headerImage','headerTitle','headerSubtitle'],
     components :{NavItem},
     data () {
       return {
@@ -35,10 +45,18 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  header {
+    display: flex;
+    flex-direction: row;
+  }
+  header .text-container {
+    display: flex;
+    flex-direction: column;
+  }
   .nav-sidebar-container {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    max-width: 300px;
   }
   .close {
     visibility: hidden; /* hides sub-menu */
@@ -57,8 +75,5 @@
     z-index: 1;
     transform: translateY(0%);
     transition-delay: 0s, 0s, 0.3s;
-  }
-  .sub-menu {
-
   }
 </style>

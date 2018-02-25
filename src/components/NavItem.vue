@@ -37,7 +37,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 324px;
+    width: 100%;
     height: 56px;
   }
   .rotate {

@@ -1,7 +1,7 @@
 <template>
   <div class="store-list">
     <h1>Store List</h1>
-    <button v-for="market of markets" v-on:click="goToShop(market.id)">
+    <button v-for="market of markets" v-on:click="goToShop(market)">
       {{market.name}}
     </button>
     <button v-on:click="goToShop">Hola</button>
@@ -26,8 +26,8 @@
       })
     },
     methods: {
-      goToShop (id) {
-        this.$router.push({ name: 'StoreDetails', params: {marketid:id }});
+      goToShop (market) {
+        this.$router.push({ name: 'StoreDetails', params: {marketid:market.id,marketname:market.name}});
       }
     }
   }

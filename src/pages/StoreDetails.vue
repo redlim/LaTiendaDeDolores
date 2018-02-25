@@ -1,7 +1,9 @@
 <template>
   <div class="store-details">
     <h1>Store Details</h1>
-    <nav-sidebar :items="categories" :item-key="'categories'" :item-selected="categorySelected.id" @update="getItems"></nav-sidebar>
+    <nav-sidebar :items="categories" :item-key="'categories'" :item-selected="categorySelected.id" @update="getItems"
+    header-image="" :header-title="title" :header-subtitle="subtitle">
+    </nav-sidebar>
     {{productsName}}
     <p v-for="product of products ">{{product.name}}</p>
   </div>
@@ -31,7 +33,6 @@
     },
     methods: {
       getItems(item){
-        console.log("hey");
         this.categorySelected = item;
         const params = {company_id:this.$route.params.marketid,category_id:item.id};
         getItems(params).then((res)=>{
@@ -42,11 +43,14 @@
       }
     },
     computed : {
-
+      subtitle () {
+        return 'Comprando en ' + this.$route.params.postalcode
+      },
+      title () {
+        return this.$route.params.marketname
+      }
     }
   }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>
