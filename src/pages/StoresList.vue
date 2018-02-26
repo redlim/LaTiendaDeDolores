@@ -27,7 +27,7 @@
     },
     methods: {
       goToShop (market) {
-        this.$router.push({ name: 'StoreDetails', params: {marketid:market.id,marketname:market.name}});
+        this.$router.push({ name: 'StoreDetails', params: {marketid:market.id,marketname:market.name,marketimage:market.picture}});
       }
     }
   }

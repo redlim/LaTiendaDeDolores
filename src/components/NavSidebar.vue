@@ -2,22 +2,25 @@
   <nav class="nav-sidebar-container">
     <header>
       <div class="icon-container">
-        <img :src="headerImage" alt="name" class="icon">
+        <img :src="headerImage">
       </div>
       <div class="text-container">
-        <p>{{headerTitle}}</p>
-        <p>{{headerSubtitle}}</p>
+        <p class="title">{{headerTitle}}</p>
+        <p class="subtitle">{{headerSubtitle}}</p>
       </div>
       <a href="">CAMBIAR</a>
     </header>
-    <span v-for="item of items">
-      <nav-item v-on:click.native="clickItem(item)" :name="item.name" :icon="item.icon" class="mainmenu"></nav-item>
-      <div :class="{'open' : item.id === itemSelected , 'close' : item.id !== itemSelected}">
-        <span  v-if="item[itemKey]" v-for="subitem of item[itemKey]">
-          <nav-item v-on:click.native="clickItem(subitem)" :name="subitem.name" :icon="item.icon" ></nav-item>
-        </span>
-      </div>
-    </span>
+    <ul class="nav-items">
+      <li v-for="item of items">
+        <nav-item v-on:click.native="clickItem(item)" :name="item.name" :icon="item.icon" class="mainmenu" :status="item.id === itemSelected"></nav-item>
+        <div :class="{'open' : item.id === itemSelected , 'close' : item.id !== itemSelected}">
+          <span  v-if="item[itemKey]" v-for="subitem of item[itemKey]" class="subitems">
+            <nav-item v-on:click.native="clickItem(subitem)" :name="subitem.name" ></nav-item>
+          </span>
+        </div>
+      </li>
+    </ul>
+
   </nav>
 </template>
 
@@ -29,14 +32,15 @@
     components :{NavItem},
     data () {
       return {
-
+        iconStatus: 'close'
       }
     },
     methods : {
-      clickItem (item)  {
-        console.log("hey");
-        this.$emit('update',item);
-      }
+      // clickItem (item)  {
+      //   console.log("hey");
+      //   this.iconStatus = item.id === this.itemSelected ? 'open' : 'close';
+      //   this.$emit('update',item);
+      // }
     },
     computed : {
     }
@@ -45,18 +49,69 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .nav-sidebar-container {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    overflow-y: auto;
+    background-color: white;
+    z-index: 9;
+  }
   header {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    background-color: green;
+    top: 0;
+    left: 0;
+    height: 64px;
+    width: 320px;
+    padding: 12px;
+    box-sizing:border-box;
   }
   header .text-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-content: left;
+    width:70%;
   }
-  .nav-sidebar-container {
+  .text-container p{
+    margin: 0;
+    text-align: left;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    height: 100%;
+  }
+  .text-container .subtitle {
+    opacity: 0.8;
+    font-family: HelveticaNeue;
+    font-size: 14px;
+  }
+
+  .text-container .title {
+    font-size: 18px;
+    line-height: 18px;
+  }
+  header a{
+    font-size: 12px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    text-decoration: none;
     display: flex;
-    flex-direction: column;
-    max-width: 300px;
+    align-self: center;
+  }
+  header .icon-container{
+    width: 32px;
+    height: 32px;
+  }
+  .icon-container img {
+    width: 100%;
+    height: 100%;
   }
   .close {
     visibility: hidden; /* hides sub-menu */
@@ -74,6 +129,17 @@
     opacity: 1;
     z-index: 1;
     transform: translateY(0%);
-    transition-delay: 0s, 0s, 0.3s;
+    transition-delay: 0s, 0s, 0.7s;
+    background: #F5F5F5;
+  }
+ /*to not show the scroll bar*/
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
   }
 </style>
