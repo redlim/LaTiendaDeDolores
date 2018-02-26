@@ -12,10 +12,10 @@
     </header>
     <ul class="nav-items">
       <li v-for="item of items">
-        <nav-item v-on:click.native="clickItem(item)" :name="item.name" :icon="item.icon" class="mainmenu" :status="item.id === itemSelected"></nav-item>
-        <div :class="{'open' : item.id === itemSelected , 'close' : item.id !== itemSelected}">
-          <span  v-if="item[itemKey]" v-for="subitem of item[itemKey]" class="subitems">
-            <nav-item v-on:click.native="clickItem(subitem)" :name="subitem.name" ></nav-item>
+        <nav-item v-on:click.native="clickItem(item)" :name="item.name" :icon="item.icon" class="mainmenu" :status="item.id === itemSelected" :type="status(item)"></nav-item>
+        <div :class="status(item)">
+          <span v-if="item[itemKey]" v-for="subitem of item[itemKey]" class="subitems">
+            <nav-item v-on:click.native="clickSubItem(subitem,item)" :name="subitem.name" :status="subitem.id === itemSelected"></nav-item>
           </span>
         </div>
       </li>
@@ -32,17 +32,24 @@
     components :{NavItem},
     data () {
       return {
-        iconStatus: 'close'
+        currentitem: {}
       }
     },
     methods : {
-      // clickItem (item)  {
-      //   console.log("hey");
-      //   this.iconStatus = item.id === this.itemSelected ? 'open' : 'close';
-      //   this.$emit('update',item);
-      // }
+      clickItem (item)  {
+        this.currentitem = item;
+        // this.$emit('update',item);
+      },
+      status (item){
+        return this.currentitem === item ? 'open' : 'close';
+      },
+      clickSubItem (subitem,item)  {
+        this.currentitem = item;
+        this.$emit('update',subitem);
+      },
     },
     computed : {
+
     }
   }
 </script>

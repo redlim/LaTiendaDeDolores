@@ -6,7 +6,8 @@
     <div class="text-container">
       <p>{{name}}
       </p>
-      <img src="../assets/icons/ic_show.svg" alt="show" :class="iconStatus" v-show="status">
+      <img src="../assets/icons/ic_show.svg" alt="show"  class="icon-show" :class="type" v-show="type">
+      <img src="../assets/icons/ic_checked.svg" alt="seleccionado"  v-show="status">
     </div>
   </a>
 </template>
@@ -14,15 +15,14 @@
 <script>
   export default {
     name: 'NavItem',
-    props: ['status','name','icon'],
+    props: ['status','name','icon','type'],
     data () {
       return {
-
       }
     },
     computed : {
-      iconStatus ()  {
-        return this.status === 'open' ? 'rotate' : ''
+      iconStatus: function () {
+        return this.type === 'open' ? '' : 'rotate';
       }
     }
   }
@@ -49,14 +49,21 @@
     padding: 12px;
     box-sizing:border-box;
   }
+  .nav-item-container .icon-show{
+    display: none;
+  }
+  .nav-item-container .icon-show.open{
+    display: block;
+  }
+  .nav-item-container:hover .icon-show.close{
+    display: block ;
+    transform: rotate(180deg);
+  }
   .nav-item-container:hover{
     background: #F5F5F5;
   }
   .nav-item-container:active{
     background: rgba(79, 208, 83, 0.11);
-  }
-  .rotate {
-   transform: rotate(180deg);
   }
   .text-container {
     margin: 0;
@@ -71,4 +78,5 @@
     color: #666666;
     border-bottom: solid 1px #D5D5D5;
   }
+
 </style>

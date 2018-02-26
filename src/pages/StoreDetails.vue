@@ -34,7 +34,7 @@
         const params = {company_id:this.$route.params.marketid,category_id:item.id};
         getItems(params).then((res)=>{
           this.productsName = res.data.categories[0].name;
-          this.products = res.data.categories[0].products;
+          this.products = res.data.categories.length !== 0 ? res.data.categories[0].products : [];
         })
       },
       fetchData () {
@@ -51,7 +51,7 @@
         getCategories(params).then((res)=>{
           this.categories = res.data.categories;
           this.categorySelected = res.data.categories[0];
-          this.products = res.data.categories[0].products;
+          this.products = res.data.categories.length !== 0 ? res.data.categories[0].products : [];
         }).catch((err) => {
           console.log(err);
         });
