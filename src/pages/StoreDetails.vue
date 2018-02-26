@@ -1,28 +1,32 @@
 <template>
   <div class="store-details">
     <h1>Store Details</h1>
-    <nav-sidebar :items="categories" :item-key="'categories'" :item-selected="categorySelected.id" @update="getItems"
+    <nav-sidebar :items="categories" :item-key="'categories'" :item-selected="categorySelected.id"
+                 @updateItem="getAllItems" @updateSubItem="getItems"
     :header-image="currentMarket.picture" :header-title="currentMarket.name" :header-subtitle="subtitle">
     </nav-sidebar>
-    {{market}}
     {{productsName}}
-    <p v-for="product of products ">{{product.name}}</p>
+    <span v-for="product of products ">
+      <product-card  :name="product.name" :image="product.pictures[0]"></product-card>
+    </span>
   </div>
 </template>
 
 <script>
-  import {getCategories ,getItems, getAllMarkets } from '../api/markets'
+  import {getCategories ,getProducts, getAllMarkets,getAllProducts } from '../api/markets'
   import NavSidebar from '../components/NavSidebar'
+  import ProductCard from '../components/ProductCard'
+  import loadingGif from '../assets/icons/loading.gif'
   export default {
     name: 'StoreDetails',
-    components :{NavSidebar},
+    components :{NavSidebar,ProductCard},
     data () {
       return {
         products:[],
         categories:{},
         productsName:'',
         categorySelected:{},
-        market:[]
+        market:[{picture:loadingGif,name:'----------'}]
       }
     },
     created () {
@@ -30,17 +34,27 @@
     },
     methods: {
       getItems(item){
+        console.log("hola");
         this.categorySelected = item;
         const params = {company_id:this.$route.params.marketid,category_id:item.id};
-        getItems(params).then((res)=>{
-          this.productsName = res.data.categories[0].name;
-          this.products = res.data.categories.length !== 0 ? res.data.categories[0].products : [];
+        getProducts(params).then((res)=>{
+          this.products = res.data.items
+        })
+      },
+      getAllItems(item){
+        this.categorySelected = item;
+        const params = {company_id:this.$route.params.marketid,category_id:item.id};
+        getAllProducts(params).then((res)=>{
+          this.products = res.data.categories.reduce((acum,data)=>{
+            acum = acum.concat(data.items);
+            return acum;
+          },[]);
+          console.log(this.products);
         })
       },
       fetchData () {
         const postalcode = {postalcode:this.$route.params.postalcode};
         getAllMarkets(postalcode).then((res)=>{
-          console.log(res);
           this.market = res.data.markets.filter((e)=>{
             return e.id === parseInt(this.$route.params.marketid);
           });
@@ -51,7 +65,7 @@
         getCategories(params).then((res)=>{
           this.categories = res.data.categories;
           this.categorySelected = res.data.categories[0];
-          this.products = res.data.categories.length !== 0 ? res.data.categories[0].products : [];
+          // this.products = res.data.categories.length !== 0 ? res.data.categories[0].products : [];
         }).catch((err) => {
           console.log(err);
         });

@@ -27,7 +27,11 @@ export const getCategories = (params) => {
   return Vue.http.get('company/categories',{params:params});
 };
 
-export const getItems =( params) =>{
+export const getAllProducts =( params) =>{
   params.token = localStorage.getItem(tokenName);
-  return Vue.http.get('company/featured',{params:params});
+  return Vue.http.get('v4/company/featured',{params:params});
+};
+export const getProducts =( params) =>{
+  params.token = localStorage.getItem(tokenName);
+  return Vue.http.get('v4/company/items',{params:params});
 };

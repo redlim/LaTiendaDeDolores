@@ -6,7 +6,7 @@
     <div class="text-container">
       <p>{{name}}
       </p>
-      <img src="../assets/icons/ic_show.svg" alt="show"  class="icon-show" :class="type" v-show="type">
+      <img src="../assets/icons/ic_show.svg" alt="show"  class="icon-show" :class="type" v-show="type && !status">
       <img src="../assets/icons/ic_checked.svg" alt="seleccionado"  v-show="status">
     </div>
   </a>
@@ -48,6 +48,7 @@
     height: 56px;
     padding: 12px;
     box-sizing:border-box;
+    cursor: pointer;
   }
   .nav-item-container .icon-show{
     display: none;
@@ -60,7 +61,7 @@
     transform: rotate(180deg);
   }
   .nav-item-container:hover{
-    background: #F5F5F5;
+    background: rgba(245, 245, 245, 0.5);
   }
   .nav-item-container:active{
     background: rgba(79, 208, 83, 0.11);

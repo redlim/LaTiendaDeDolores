@@ -45,7 +45,7 @@
     font-weight: normal;
   }
   .hero-image {
-    background-image: url('../assets/background.jpeg');
+    background-image: url('../assets/background.jpg');
     height: 70%;
     background-position: center;
     background-repeat: no-repeat;

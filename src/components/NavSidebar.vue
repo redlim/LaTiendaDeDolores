@@ -8,7 +8,7 @@
         <p class="title">{{headerTitle}}</p>
         <p class="subtitle">{{headerSubtitle}}</p>
       </div>
-      <a href="">CAMBIAR</a>
+      <a class="link" v-on:click="goBack">CAMBIAR</a>
     </header>
     <ul class="nav-items">
       <li v-for="item of items">
@@ -28,7 +28,7 @@
   import NavItem from './NavItem'
   export default {
     name: 'NavSidebar',
-    props: ['items','itemKey','itemSelected',"update",'headerImage','headerTitle','headerSubtitle'],
+    props: ['items','itemKey','itemSelected',"updateItem",'headerImage','headerTitle','headerSubtitle','updateSubItem'],
     components :{NavItem},
     data () {
       return {
@@ -38,18 +38,19 @@
     methods : {
       clickItem (item)  {
         this.currentitem = item;
-        // this.$emit('update',item);
+        this.$emit('updateItem',item);
       },
       status (item){
         return this.currentitem === item ? 'open' : 'close';
       },
       clickSubItem (subitem,item)  {
         this.currentitem = item;
-        this.$emit('update',subitem);
+        this.$emit('updateSubItem',subitem);
       },
-    },
-    computed : {
-
+      goBack() {
+        console.log("hey");
+        this.$router.go(-1);
+      }
     }
   }
 </script>
@@ -148,5 +149,8 @@
     border-radius: 4px;
     background-color: rgba(0,0,0,.5);
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+  }
+  .link{
+    cursor: pointer;
   }
 </style>
