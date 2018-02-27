@@ -12,10 +12,11 @@
     </header>
     <ul class="nav-items">
       <li v-for="item of items">
-        <nav-item v-on:click.native="clickItem(item)" :name="item.name" :icon="item.icon" class="mainmenu" :status="item.id === itemSelected" :type="status(item)" :link="link + item.shortcut"></nav-item>
+        <nav-item v-on:click.native="toggle(item)" :name="item.name" :icon="item.icon" class="mainmenu" :status="item.id === itemSelected" :type="status(item)" :link="link + item.shortcut"></nav-item>
         <div :class="status(item)">
+          <nav-item v-on:click.native="clickItem(item)" :name="'Ver toda la sección'" class="mainmenu" :status="item.id === itemSelected" :link="link + item.shortcut"></nav-item>
           <span v-if="item[itemKey]" v-for="subitem of item[itemKey]" class="subitems">
-            <nav-item v-on:click.native="clickSubItem(subitem,item)" :name="subitem.name" :status="subitem.id === itemSelected" :link="link+ item.shortcut+'/'+subitem.shortcut"></nav-item>
+            <nav-item v-on:click.native="clickItem(item,subitem)" :name="subitem.name" :status="subitem.id === itemSelected" :link="link+ item.shortcut+'/'+subitem.shortcut"></nav-item>
           </span>
         </div>
       </li>
@@ -34,19 +35,18 @@
       }
     },
     methods : {
-      clickItem (item)  {
+      clickItem (item,subitem)  {
         this.currentitem = item;
-        this.$emit('updateItem',item);
+        subitem ? this.$emit('updateSubItem',subitem) : this.$emit('updateItem',item);
       },
       status (item){
         return this.currentitem === item ? 'open' : 'close';
       },
-      clickSubItem (subitem,item)  {
-        this.currentitem = item;
-        this.$emit('updateSubItem',subitem);
-      },
       goBack() {
-        this.$router.go(-1);
+        this.$router.push({ name: 'StoreList'});
+      },
+      toggle (item){
+        this.currentitem === item ? this.currentitem = null : this.currentitem = item;
       }
     },
     computed :{
@@ -63,6 +63,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100vh;
     position: relative;
     top: 64px;
     left: 0;

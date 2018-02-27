@@ -29,7 +29,7 @@ export default new Router({
     },
     {
       path: '/:postalcode/markets/:marketshortcut/:marketid/',
-      name: 'StoreDetails2',
+      name: 'StoreDetails',
       component: StoreDetails
     }
   ]

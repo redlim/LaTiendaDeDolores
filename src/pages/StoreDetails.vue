@@ -40,7 +40,7 @@
     },
     created () {
       this.fetchData();
-      this.link = '#'+this.$route.path +'/';
+      this.link = '#'+ this.$route.params.postalcode +'/markets/'+ this.$route.params.marketshortcut +'/'+ this.$route.params.marketid +'/';
     },
     methods: {
       getItems(item){
@@ -84,7 +84,6 @@
         return 'Comprando en ' + this.$route.params.postalcode
       },
       currentMarket (){
-        console.log(this.market);
         return this.market[0]
       }
     }
@@ -98,6 +97,7 @@
   .product-list{
     height: 100vh;
     overflow: auto;
+    margin: auto;
   }
   .nav-sidebar{
     width: 320px;

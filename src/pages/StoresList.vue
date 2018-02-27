@@ -1,6 +1,6 @@
 <template>
   <div class="store-list">
-    <h1>Store List</h1>
+    <h1>Elige tu tienda</h1>
     <div class="markets">
       <product-card v-for="market of markets" :key="market.id" :name="market.name" :image="market.picture" v-on:click.native="goToShop(market)"></product-card>
     </div>
