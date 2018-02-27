@@ -1,25 +1,31 @@
 <template>
   <div class="store-details">
-    <h1>Store Details</h1>
-    <nav-sidebar :items="categories" :item-key="'categories'" :item-selected="categorySelected.id"
-                 @updateItem="getAllItems" @updateSubItem="getItems"
-    :header-image="currentMarket.picture" :header-title="currentMarket.name" :header-subtitle="subtitle">
-    </nav-sidebar>
-    {{productsName}}
-    <span v-for="product of products ">
-      <product-card  :name="product.name" :image="product.pictures[0]"></product-card>
-    </span>
+    <div class="nav-sidebar">
+       <nav-sidebar :items="categories"
+                    :item-key="'categories'"
+                    :item-selected="categorySelected.id"
+                    :header-image="currentMarket.picture"
+                    :header-title="currentMarket.name"
+                    :header-subtitle="subtitle"
+                    @updateItem="getAllItems"
+                    @updateSubItem="getItems">
+       </nav-sidebar>
+    </div>
+    <div class="product-list">
+      <h1>{{productsName}}</h1>
+      <product-list :products="products"></product-list>
+    </div>
   </div>
 </template>
 
 <script>
   import {getCategories ,getProducts, getAllMarkets,getAllProducts } from '../api/markets'
   import NavSidebar from '../components/NavSidebar'
-  import ProductCard from '../components/ProductCard'
+  import ProductList from '../components/ProductList'
   import loadingGif from '../assets/icons/loading.gif'
   export default {
     name: 'StoreDetails',
-    components :{NavSidebar,ProductCard},
+    components :{NavSidebar,ProductList},
     data () {
       return {
         products:[],
@@ -34,8 +40,8 @@
     },
     methods: {
       getItems(item){
-        console.log("hola");
         this.categorySelected = item;
+        this.productsName = item.name;
         const params = {company_id:this.$route.params.marketid,category_id:item.id};
         getProducts(params).then((res)=>{
           this.products = res.data.items
@@ -43,13 +49,13 @@
       },
       getAllItems(item){
         this.categorySelected = item;
+        this.productsName = item.name;
         const params = {company_id:this.$route.params.marketid,category_id:item.id};
         getAllProducts(params).then((res)=>{
           this.products = res.data.categories.reduce((acum,data)=>{
             acum = acum.concat(data.items);
             return acum;
           },[]);
-          console.log(this.products);
         })
       },
       fetchData () {
@@ -65,7 +71,6 @@
         getCategories(params).then((res)=>{
           this.categories = res.data.categories;
           this.categorySelected = res.data.categories[0];
-          // this.products = res.data.categories.length !== 0 ? res.data.categories[0].products : [];
         }).catch((err) => {
           console.log(err);
         });
@@ -82,4 +87,16 @@
   }
 </script>
 <style scoped>
+  .store-details{
+    display: flex;
+    flex-direction: row;
+  }
+  .product-list{
+    height: 100vh;
+    overflow: auto;
+  }
+  .nav-sidebar{
+    width: 320px;
+    min-width: 320px;
+  }
 </style>

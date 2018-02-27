@@ -20,10 +20,8 @@
         </div>
       </li>
     </ul>
-
   </nav>
 </template>
-
 <script>
   import NavItem from './NavItem'
   export default {
@@ -48,7 +46,6 @@
         this.$emit('updateSubItem',subitem);
       },
       goBack() {
-        console.log("hey");
         this.$router.go(-1);
       }
     }
@@ -60,8 +57,8 @@
   .nav-sidebar-container {
     display: flex;
     flex-direction: column;
-    width: 320px;
-    position: fixed;
+    width: 100%;
+    position: relative;
     top: 64px;
     left: 0;
     overflow-y: auto;
@@ -122,7 +119,7 @@
     height: 100%;
   }
   .close {
-    visibility: hidden; /* hides sub-menu */
+    display: none; /* hides sub-menu */
     opacity: 0;
     position: absolute;
     top: 100%;
@@ -133,7 +130,7 @@
     transition: all 0.3s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;
   }
   .open {
-    visibility: visible; /* shows sub-menu */
+    display: block; /* shows sub-menu */
     opacity: 1;
     z-index: 1;
     transform: translateY(0%);

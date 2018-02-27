@@ -14,6 +14,7 @@ export default {
   html, body {
     margin: 0;
     height: 100%;
+    overflow: hidden;
   }
 #app {
   font-family: 'SF UI Display', Helvetica, Arial, sans-serif;
