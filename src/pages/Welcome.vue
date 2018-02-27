@@ -4,10 +4,11 @@
       <div class="hero-text">
         <h1>Bienvenidos a <strong>El mercado de Dolores</strong></h1>
         <form  v-on:submit.prevent="goToShops">
-          <label for="inputPostalCode">Código Postal:
-          <input id="inputPostalCode" type="text" v-model="postalCode"></label>
-          <button type="submit">Buscar Tiendas</button>
+          <label for="inputPostalCode">Código Postal:</label>
+          <input id="inputPostalCode" type="text" v-model="postalCode" v-on:change="alertMessage = postalCode === ''">
+          <button class="button-submit" type="submit">Buscar Tiendas</button>
         </form>
+        <p v-show="alertMessage">{{message}}</p>
       </div>
     </div>
   </div>
@@ -19,7 +20,9 @@
     name: 'Welcome',
     data () {
       return {
-        postalCode:''
+        postalCode:'',
+        message:'Tienes que introducir un Código Postal',
+        alertMessage:false
       }
     },
     mounted () {
@@ -30,7 +33,7 @@
         if (this.postalCode !== ''){
           this.$router.push({ name: 'StoreList', params: { postalcode: this.postalCode }});
         }else {
-
+          this.alertMessage = true;
         }
       }
     }
@@ -64,5 +67,29 @@
     height: 100%;
     width: 100%;
     background: rgba(0,0,0,0.3); ;
+  }
+  form{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+  }
+  label{
+    align-self: center;
+  }
+  #inputPostalCode{
+    width: 30%;
+    height: 30px;
+    font-size: 20px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    text-align: center;
+  }
+  .button-submit{
+    height: 36px;
+    margin: 0;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 20px;
   }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="store-list">
+    <a class="go-back-link" href="#/">Introducir otro código postal</a>
     <h1>Elige tu tienda</h1>
     <div class="markets">
       <product-card v-for="market of markets" :key="market.id" :name="market.name" :image="market.picture" v-on:click.native="goToShop(market)"></product-card>
@@ -46,6 +47,11 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-
+  }
+  .go-back-link{
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    text-decoration: none;
   }
 </style>

@@ -1,12 +1,15 @@
 <template>
   <div id="app" class="overlay">
     <router-view/>
+    <my-footer></my-footer>
   </div>
 </template>
 
 <script>
+  import MyFooter from './components/MyFooter'
 export default {
-  name: 'App'
+  name: 'App',
+  components:{MyFooter}
 }
 </script>
 

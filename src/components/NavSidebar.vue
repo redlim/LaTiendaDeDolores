@@ -63,7 +63,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100vh;
+    height: 85vh;
     position: relative;
     top: 64px;
     left: 0;
