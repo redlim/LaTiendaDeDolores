@@ -3,7 +3,9 @@
     <div class="img-container">
       <img :src="image" :alt="name">
     </div>
-    <p>{{ name }}</p>
+    <div class="text-container">
+      <p>{{ name }}</p>
+    </div>
   </div>
 </template>
 
@@ -23,12 +25,26 @@
   .product-card-container{
     width: 30%;
     height: auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    cursor: pointer;
   }
+
+  .product-card-container:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+
  .img-container{
    width: 100%;
  }
   img{
     width: auto;
     max-height: 100px;
+  }
+  .text-container {
+    padding: 2px 16px;
   }
 </style>

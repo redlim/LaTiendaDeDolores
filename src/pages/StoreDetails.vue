@@ -5,10 +5,12 @@
                     :item-key="'categories'"
                     :item-selected="categorySelected.id"
                     :header-image="currentMarket.picture"
+                    :background="currentMarket.companies[0].picture"
                     :header-title="currentMarket.name"
                     :header-subtitle="subtitle"
                     @updateItem="getAllItems"
-                    @updateSubItem="getItems">
+                    @updateSubItem="getItems"
+                    :link="link">
        </nav-sidebar>
     </div>
     <div class="product-list">
@@ -32,11 +34,13 @@
         categories:{},
         productsName:'',
         categorySelected:{},
-        market:[{picture:loadingGif,name:'----------'}]
+        market:[{picture:loadingGif,name:'----------',companies:[{picture:''}]}],
+        link:''
       }
     },
     created () {
       this.fetchData();
+      this.link = '#'+this.$route.path +'/';
     },
     methods: {
       getItems(item){
@@ -70,7 +74,6 @@
         const params = {company_id:this.$route.params.marketid};
         getCategories(params).then((res)=>{
           this.categories = res.data.categories;
-          this.categorySelected = res.data.categories[0];
         }).catch((err) => {
           console.log(err);
         });
@@ -81,6 +84,7 @@
         return 'Comprando en ' + this.$route.params.postalcode
       },
       currentMarket (){
+        console.log(this.market);
         return this.market[0]
       }
     }

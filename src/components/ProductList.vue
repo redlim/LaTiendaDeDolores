@@ -1,7 +1,7 @@
 <template>
   <div class="product-list-container">
-    <span  class="product-cards">
-      <product-card v-for="product of products" :key="product.id"" :name="product.name" :image="product.pictures[0]"></product-card>
+    <span class="product-cards">
+      <product-card v-for="product of products" :key="product.id" :name="product.name" :image="product.pictures[0]"></product-card>
     </span>
   </div>
   </div>

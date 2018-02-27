@@ -1,6 +1,6 @@
 <template>
   <nav class="nav-sidebar-container">
-    <header>
+    <header :style="headerBackground">
       <div class="icon-container">
         <img :src="headerImage">
       </div>
@@ -12,10 +12,10 @@
     </header>
     <ul class="nav-items">
       <li v-for="item of items">
-        <nav-item v-on:click.native="clickItem(item)" :name="item.name" :icon="item.icon" class="mainmenu" :status="item.id === itemSelected" :type="status(item)"></nav-item>
+        <nav-item v-on:click.native="clickItem(item)" :name="item.name" :icon="item.icon" class="mainmenu" :status="item.id === itemSelected" :type="status(item)" :link="link + item.shortcut"></nav-item>
         <div :class="status(item)">
           <span v-if="item[itemKey]" v-for="subitem of item[itemKey]" class="subitems">
-            <nav-item v-on:click.native="clickSubItem(subitem,item)" :name="subitem.name" :status="subitem.id === itemSelected"></nav-item>
+            <nav-item v-on:click.native="clickSubItem(subitem,item)" :name="subitem.name" :status="subitem.id === itemSelected" :link="link+ item.shortcut+'/'+subitem.shortcut"></nav-item>
           </span>
         </div>
       </li>
@@ -26,7 +26,7 @@
   import NavItem from './NavItem'
   export default {
     name: 'NavSidebar',
-    props: ['items','itemKey','itemSelected',"updateItem",'headerImage','headerTitle','headerSubtitle','updateSubItem'],
+    props: ['items','itemKey','itemSelected',"updateItem",'headerImage','headerTitle','background','headerSubtitle','updateSubItem','link'],
     components :{NavItem},
     data () {
       return {
@@ -47,6 +47,11 @@
       },
       goBack() {
         this.$router.go(-1);
+      }
+    },
+    computed :{
+      headerBackground (){
+       return 'background-image: url(' + this.background+') ;background-repeat: no-repeat; background-size: cover;';
       }
     }
   }

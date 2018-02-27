@@ -1,20 +1,22 @@
 <template>
   <div class="store-list">
     <h1>Store List</h1>
-    <button v-for="market of markets" v-on:click="goToShop(market)">
-      {{market.name}}
-    </button>
-    <button v-on:click="goToShop">Hola</button>
+    <div class="markets">
+      <product-card v-for="market of markets" :key="market.id" :name="market.name" :image="market.picture" v-on:click.native="goToShop(market)"></product-card>
+    </div>
   </div>
 </template>
 
 <script>
+  import ProductCard from '../components/ProductCard'
+  import loadingGif from '../assets/icons/loading.gif'
   import {getAllMarkets} from '../api/markets'
   export default {
     name: 'StoreList',
+    components:{ProductCard},
     data () {
       return {
-        markets: []
+        markets: [{name:'loading....',picture:loadingGif}]
       }
     },
     mounted (){
@@ -35,4 +37,15 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .store-list{
+    overflow: auto;
+    height: 100%;
+  }
+  .markets{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+  }
 </style>

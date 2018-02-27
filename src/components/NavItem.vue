@@ -1,5 +1,5 @@
 <template>
-  <a class="nav-item-container">
+  <a class="nav-item-container" :href="link">
     <div class="icon-container">
       <img v-show="icon" :src="icon" alt="name" class="icon">
     </div>
@@ -15,7 +15,7 @@
 <script>
   export default {
     name: 'NavItem',
-    props: ['status','name','icon','type'],
+    props: ['status','name','icon','type','link'],
     data () {
       return {
       }
@@ -23,6 +23,9 @@
     computed : {
       iconStatus: function () {
         return this.type === 'open' ? '' : 'rotate';
+      },
+      locallink () {
+        return '#'+ this.$route.params.postalcode+'/' +this.$route.params.markeshortcut +'/' + this.$route.params.marketid +'/'+ this.link
       }
     }
   }
@@ -79,5 +82,7 @@
     color: #666666;
     border-bottom: solid 1px #D5D5D5;
   }
-
+  a{
+    text-decoration: none;
+  }
 </style>
